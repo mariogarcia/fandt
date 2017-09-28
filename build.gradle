@@ -1,4 +1,7 @@
 apply plugin: 'java-library'
+apply plugin: 'application'
+
+mainClassName = 'fandt.json.JsonTransformer'
 
 repositories {
     jcenter()

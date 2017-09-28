@@ -65,24 +65,24 @@ public class Pipeline {
                 this.filter = filter;
             }
 
+            public <OutputType> FilterFragment<O,OutputType> filter(Filter<O,OutputType> filter) {
+                CompletableFuture<OutputType> computation = this
+                    .filter
+                    .thenCompose((in) -> supplyAsync(() -> filter.filter(null, in)));
+
+                return new FilterFragment<O,OutputType>(computation);
+            }
+
             /**
              * @param output
              * @return
              * @since 0.1.0
              */
-            public <I> OutputFragment<I> output(Output<I> output) {
-                return new OutputFragment<I>(output);
-            }
-
-            /**
-             * @since 0.1.0
-             */
-            public static class OutputFragment<I> {
-
-                public OutputFragment(Output<I> out) {
-
-                }
-
+            public CompletableFuture<Void> output(Output<O> output) {
+                return this.filter.thenCompose((in) -> supplyAsync(() -> {
+                        output.process(in);
+                        return null;
+                    }));
             }
         }
     }

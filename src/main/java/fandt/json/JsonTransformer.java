@@ -35,11 +35,13 @@ public class JsonTransformer implements Filter<JsonNode, JsonNode> {
             .read(configuration.get(EXPRESSION_KEY).toString());
     }
 
-    public static void main(String[] args) {
-        fandt.Pipeline
+    public static void main(String[] args) throws Throwable{
+        java.util.concurrent.CompletableFuture computation = fandt.Pipeline
             .input((conf) -> "{\"username\":\"john\"}")
-            .filter(new JsonParser())
-            .output((input) -> System.out.println(input));
-            //            .execute();
+            .filter((conf, in) -> in.toUpperCase())
+            .filter((conf, in) -> in + "blbabla")
+            .output((input) -> System.out.println("========>XX" + input));
+
+        computation.get();
     }
 }
