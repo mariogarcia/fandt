@@ -38,12 +38,11 @@ public class JsonTransformer implements Filter<JsonNode, JsonNode> {
     }
 
     //    public static void main(String[] args) {
-    //        Pipelines
-    //            .builder()
-    //            .input(new HttpInput())
-    //            .filters(() -> addEntry("aa", ""),
-    //                     () -> addEntry("oo", 1))
-    //            .output(mongodb(() -> ))
+    //        Pipeline
+    //            .input(get(""))
+    //            .filter(read("aa", ""))
+    //            .filter(read("",""))
+    //            .output(insertIn("metrics"))
     //            .cron("")
     //            .execute()
     //
