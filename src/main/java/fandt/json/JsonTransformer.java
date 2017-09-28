@@ -28,23 +28,18 @@ public class JsonTransformer implements Filter<JsonNode, JsonNode> {
         .build();
 
     @Override
-    public CompletableFuture<JsonNode> filter(Map<String,String> configuration, JsonNode json) {
-        return supplyAsync(() -> {
-                return JsonPath
-                    .using(JACKSON_CONFIGURATION)
-                    .parse(json)
-                    .read(configuration.get(EXPRESSION_KEY).toString());
-            });
+    public JsonNode filter(Map<String,String> configuration, JsonNode json) {
+        return JsonPath
+            .using(JACKSON_CONFIGURATION)
+            .parse(json)
+            .read(configuration.get(EXPRESSION_KEY).toString());
     }
 
-    //    public static void main(String[] args) {
-    //        Pipeline
-    //            .input(get(""))
-    //            .filter(read("aa", ""))
-    //            .filter(read("",""))
-    //            .output(insertIn("metrics"))
-    //            .cron("")
-    //            .execute()
-    //
-    //    }
+    public static void main(String[] args) {
+        fandt.Pipeline
+            .input((conf) -> "{\"username\":\"john\"}")
+            .filter(new JsonParser())
+            .output((input) -> System.out.println(input));
+            //            .execute();
+    }
 }

@@ -1,0 +1,27 @@
+- pipeline:
+    schedule:
+      every: 2m
+    input:
+      file:
+        path: ~/source.json
+        parse-as: json
+    filter:
+      json-path:
+        expression: "*/resources"
+    output:
+      file:
+        path: ~/destination.json
+
+- pipeline:
+    schedule:
+      every: 1m
+      input:
+        file:
+          path: ~/source.xml
+          parse-as: xml
+      filter:
+        xml-path:
+          expression: "//resources"
+      output:
+        file:
+          path: ~/destination.xml

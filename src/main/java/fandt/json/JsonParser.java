@@ -1,7 +1,5 @@
 package fandt.json;
 
-import static java.util.concurrent.CompletableFuture.supplyAsync;
-
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +17,9 @@ import fandt.Util;
 public class JsonParser implements Filter<String,JsonNode> {
 
     @Override
-    public CompletableFuture<JsonNode> filter(final Map<String,String> configuration, final String json) {
-        return supplyAsync(Util.checked(() -> new ObjectMapper().readTree(json)));
+    public JsonNode filter(final Map<String,String> configuration, final String json) {
+        return Util
+            .checked(() -> new ObjectMapper().readTree(json))
+            .get();
     }
 }

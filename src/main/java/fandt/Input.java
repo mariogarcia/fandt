@@ -1,7 +1,6 @@
 package fandt;
 
 import java.util.Map;
-import java.util.concurrent.Future;
 
 /**
  * @since 0.1.0
@@ -14,5 +13,5 @@ public interface Input<TYPE> {
      * @return
      * @since 0.1.0
      */
-    Future<TYPE> produce(Map<String,String> configuration);
+    public TYPE produce(Map<String,String> configuration);
 }

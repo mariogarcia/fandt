@@ -11,5 +11,5 @@ public interface Output<INPUT> {
      * @return
      * @since 0.1.0
      */
-    Runnable process(INPUT input);
+    void process(INPUT input);
 }
