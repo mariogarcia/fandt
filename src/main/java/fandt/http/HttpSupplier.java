@@ -1,21 +1,16 @@
 package fandt.http;
 
+import fandt.Util;
 import java.util.function.Supplier;
 import com.mashape.unirest.http.Unirest;
+
 /**
  * @since 0.1.0
  */
 public class HttpSupplier implements Supplier<String> {
 
-    /**
-     * @since 0.1.0
-     */
-    protected final String url;
-
-    /**
-     * @since 0.1.0
-     */
-    protected final String acceptHeader;
+    private final String url;
+    private final String acceptHeader;
 
     /**
      * @param url
@@ -23,6 +18,7 @@ public class HttpSupplier implements Supplier<String> {
      */
     public HttpSupplier(String url, String acceptHeader) {
         this.url = url;
+        this.acceptHeader = acceptHeader;
     }
 
     /**
@@ -30,8 +26,12 @@ public class HttpSupplier implements Supplier<String> {
      * @since 0.1.0
      */
     public String get() {
-        return Unirest
-            .get(url)
-            .header("Accept", acceptHeader);
+        return Util.checked(() -> {
+                return Unirest
+                .get(url)
+                .header("Accept", acceptHeader)
+                .asString()
+                .getBody();
+        }).get();
     }
 }

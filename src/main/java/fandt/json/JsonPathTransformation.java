@@ -18,32 +18,27 @@ import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
  *
  * @since 0.1.0
  */
-public class JsonPathTransformation implements Function<JsonNode, JsonNode> {
-
-    private static final Configuration JACKSON_CONFIGURATION = Configuration
-        .builder()
-        .mappingProvider(new JacksonMappingProvider())
-        .jsonProvider(new JacksonJsonProvider())
-        .build();
+public class JsonPathTransformation<OUTPUT> implements Function<JsonNode, OUTPUT> {
 
     /**
      * @since 0.1.0
      */
     protected final String expression;
+    protected final Class<OUTPUT> clazz;
 
     /**
      * @param configuration
      * @since 0.1.0
      */
-    public JsonPathTransformation(String expression) {
+    public JsonPathTransformation(String expression, Class<OUTPUT> outputClazz) {
         this.expression = expression;
+        this.clazz = outputClazz;
     }
 
     @Override
-    public JsonNode apply(JsonNode json) {
+    public OUTPUT apply(JsonNode json) {
         return JsonPath
-            .using(JACKSON_CONFIGURATION)
             .parse(json)
-            .read(expression);
+            .read(expression, clazz);
     }
 }
