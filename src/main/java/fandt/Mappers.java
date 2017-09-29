@@ -20,21 +20,20 @@ public final class Mappers {
         return new JsonPathTransformation(expression, clazz);
     }
 
-    public static <Output> Function<JsonNode, List<String>> toJsonPathAsList(String expression) {
-        return (JsonNode jsonNode) -> {
-            return (List<String>)new JsonPathTransformation<List>(expression, List.class)
+    public static <Output> Function<String, java.util.stream.Stream<String>> toJsonPathAsStream(String expression) {
+        return (String jsonNode) -> {
+            return new JsonPathTransformation<List>(expression, List.class)
                 .apply(jsonNode)
-                .stream()
-                .collect(toList());
+                .stream();
         };
     }
 
     public static void main(String args[]) throws Throwable {
 
-        List values = java.util.stream.Stream
-            .of("{\"data\": {\"value\":\"one\"}}")
-            .map(toJson())
-            .map(toJsonPathAsList("$..value"))
+        List values = java.util.Arrays
+            .asList("{\"data\": {\"value\":\"one\"}}")
+            .stream()
+            .flatMap(toJsonPathAsStream("$..value"))
             .collect(toList());
 
         System.out.println(values);

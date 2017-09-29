@@ -18,7 +18,7 @@ import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
  *
  * @since 0.1.0
  */
-public class JsonPathTransformation<OUTPUT> implements Function<JsonNode, OUTPUT> {
+public class JsonPathTransformation<OUTPUT> implements Function<String, OUTPUT> {
 
     /**
      * @since 0.1.0
@@ -36,7 +36,7 @@ public class JsonPathTransformation<OUTPUT> implements Function<JsonNode, OUTPUT
     }
 
     @Override
-    public OUTPUT apply(JsonNode json) {
+    public OUTPUT apply(String json) {
         return JsonPath
             .parse(json)
             .read(expression, clazz);
